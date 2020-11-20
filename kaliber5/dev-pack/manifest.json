@@ -1,5 +1,5 @@
 {
-  "aliases": ["k5dev"],
+  "aliases": ["k5develop"],
   "bundles": {
     "Fidry\\AliceDataFixtures\\Bridge\\Symfony\\FidryAliceDataFixturesBundle": ["dev", "test"]
   },
