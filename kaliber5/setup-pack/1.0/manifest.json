@@ -3,11 +3,24 @@
   "copy-from-recipe": {
     "public/": "%PUBLIC_DIR%",
     "config/": "%CONFIG_DIR%",
-    "project/": "%SRC_DIR%/../../",
-    "docker/": "%SRC_DIR%/../../docker",
-    ".github/": "%SRC_DIR%/../../.github"
+    "project/": "%SRC_DIR%/../",
+    "docker/": "%SRC_DIR%/../docker",
+    ".github/": "%SRC_DIR%/../.github"
   },
   "env": {
-    "APP_ENV": "prod"
+    "APP_ENV": "prod",
+    "DATABASE_NAME": "db",
+    "DATABASE_HOST": "db",
+    "DATABASE_PORT": "3306",
+    "DATABASE_USER": "dbuser",
+    "DATABASE_PASSWORD": "123",
+    "PHP_FPM_SERVERNAME": "php",
+    "COMPOSER_MEMORY_LIMIT": "-1",
+    "COMPOSER_PROCESS_TIMEOUT": "0",
+    "COMPOSER_DISABLE_XDEBUG_WARN": "1",
+    "COMPOSER_ALLOW_SUPERUSER": "1",
+    "PHP_IDE_CONFIG=serverName": "PROJECT",
+    "DATABASE_URL": "mysql://dbuser:123@db:3306/db?serverVersion=mariadb-10.3.27",
+    "MAILER_URL": "smtp://mail:1025"
   }
 }
