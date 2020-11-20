@@ -7,6 +7,7 @@
     "config/": "%CONFIG_DIR%",
     "tests/": "%SRC_DIR%/../tests",
     "features/": "%SRC_DIR%/../features",
+    "fixtures/": "%SRC_DIR%/../fixtures",
     "src/": "%SRC_DIR%"
   },
   "env": {
