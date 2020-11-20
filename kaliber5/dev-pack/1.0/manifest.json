@@ -4,6 +4,7 @@
     "Fidry\\AliceDataFixtures\\Bridge\\Symfony\\FidryAliceDataFixturesBundle": ["dev", "test"]
   },
   "copy-from-recipe": {
+    "project/": "%SRC_DIR%/../",
     "config/": "%CONFIG_DIR%",
     "tests/": "%SRC_DIR%/../tests",
     "features/": "%SRC_DIR%/../features",
