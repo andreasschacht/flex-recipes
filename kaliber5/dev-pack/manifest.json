@@ -5,7 +5,9 @@
   },
   "copy-from-recipe": {
     "config/": "%CONFIG_DIR%",
-    "project/": "%SRC_DIR%/../"
+    "tests/": "%SRC_DIR%/../tests",
+    "features/": "%SRC_DIR%/../features",
+    "src/": "%SRC_DIR%"
   },
   "env": {
     "ADMIN_USER": "admin",

@@ -9,7 +9,7 @@ default:
             show_auto: false
 
         FriendsOfBehat\SymfonyExtension:
-            bootstrap: ~
+            bootstrap: tests/bootstrap.php
             kernel:
                 class: ~
                 path: ~
@@ -18,15 +18,14 @@ default:
         Alex\MailCatcher\Behat\MailCatcherExtension\Extension:
             purge_before_scenario: true
 
-    gherkin:
-        filters:
-            tags: "~@todo && ~@cli" # CLI is excluded as it registers an error handler that mutes fatal errors
+        Behatch\Extension: ~
+
 
     suites:
-        basic:
-            paths: ['%paths.base%/tests/Behat/features']
-            contexts:
-                - App\Tests\Behat\Context\DBContext
-                - App\Tests\Behat\Context\JsonMinkContext
+        api:
             filters:
-                tags: "@api"
+                tags: '@api'
+            contexts:
+                - App\Tests\Behat\DbContext
+                - App\Tests\Behat\ApiContext
+                - behatch:context:rest

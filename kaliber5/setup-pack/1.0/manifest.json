@@ -21,6 +21,7 @@
     "COMPOSER_ALLOW_SUPERUSER": "1",
     "PHP_IDE_CONFIG=serverName": "PROJECT",
     "DATABASE_URL": "mysql://dbuser:123@db:3306/db?serverVersion=mariadb-10.3.27",
-    "MAILER_URL": "smtp://mail:1025"
+    "MAILER_URL": "smtp://mail:1025",
+    "MAILER_DSN": "smtp://mail:1025"
   }
 }

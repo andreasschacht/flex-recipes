@@ -36,6 +36,7 @@ jobs:
         env:
           APP_ENV: test
           MAILER_URL: smtp://localhost:1025
+          MAILER_DSN: smtp://localhost:1025
           CDN_PATH: http://localhost:8080/uploads/media
           BEHAT_PARAMS: '{"extensions" : {"Alex\\MailCatcher\\Behat\\MailCatcherExtension\\Extension" : {"url" : "http://localhost:1080"}}}'
 

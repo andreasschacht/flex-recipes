@@ -32,6 +32,7 @@ jobs:
           echo "DATABASE_URL=$DATABASE_URL"  >> .env.prod
           echo "CDN_PATH=$CDN_PATH" >> .env.prod
           echo "MAILER_URL=$MAILER_URL" >> .env.prod
+          echo "MAILER_DSN=$MAILER_URL" >> .env.prod
           echo "ADMIN_USER=$ADMIN_USER" >> .env.prod
           echo "ADMIN_PASSWORD=$ADMIN_PASSWORD" >> .env.prod
           echo "CORS_ALLOW_ORIGIN=$CORS_ALLOW_ORIGIN" >> .env.prod
@@ -90,6 +91,7 @@ jobs:
           echo "DATABASE_URL=$DATABASE_URL"  >> .env.prod
           echo "CDN_PATH=$CDN_PATH" >> .env.prod
           echo "MAILER_URL=$MAILER_URL" >> .env.prod
+          echo "MAILER_DSN=$MAILER_URL" >> .env.prod
           echo "ADMIN_USER=$ADMIN_USER" >> .env.prod
           echo "ADMIN_PASSWORD=$ADMIN_PASSWORD" >> .env.prod
           echo "CORS_ALLOW_ORIGIN=$CORS_ALLOW_ORIGIN" >> .env.prod
