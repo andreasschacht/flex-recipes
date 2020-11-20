@@ -1,0 +1,6 @@
+parameters:
+    sets:
+        - 'symfony'
+    exclude_files:
+        - 'src/Migrations/*'
+        - 'src/Kernel.php'

@@ -1,0 +1,32 @@
+default:
+    extensions:
+        Behat\MinkExtension:
+            base_url: "http://localhost:8080/"
+            default_session: symfony
+            sessions:
+                symfony:
+                    symfony: ~
+            show_auto: false
+
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: ~
+            kernel:
+                class: ~
+                path: ~
+                environment: test
+                debug: ~
+        Alex\MailCatcher\Behat\MailCatcherExtension\Extension:
+            purge_before_scenario: true
+
+    gherkin:
+        filters:
+            tags: "~@todo && ~@cli" # CLI is excluded as it registers an error handler that mutes fatal errors
+
+    suites:
+        basic:
+            paths: ['%paths.base%/tests/Behat/features']
+            contexts:
+                - App\Tests\Behat\Context\DBContext
+                - App\Tests\Behat\Context\JsonMinkContext
+            filters:
+                tags: "@api"

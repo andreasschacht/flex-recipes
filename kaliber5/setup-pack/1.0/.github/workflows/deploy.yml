@@ -1,0 +1,125 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - develop
+    tags:
+      - 'v*'
+
+jobs:
+  staging:
+    name: Deploy to staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Setup Environment
+        run: |
+          echo "DATABASE_URL=$DATABASE_URL"  >> .env.prod
+          echo "CDN_PATH=$CDN_PATH" >> .env.prod
+          echo "MAILER_URL=$MAILER_URL" >> .env.prod
+          echo "ADMIN_USER=$ADMIN_USER" >> .env.prod
+          echo "ADMIN_PASSWORD=$ADMIN_PASSWORD" >> .env.prod
+          echo "CORS_ALLOW_ORIGIN=$CORS_ALLOW_ORIGIN" >> .env.prod
+        env:
+          DATABASE_URL: mysql://DB_USER:${{ secrets.DATABASE_PW_STAGING }}@localhost/DB_NAME?serverVersion=mariadb-10.1.44
+          CDN_PATH: https://assets.PROJECT-staging.kaliber5.de/uploads/media
+          MAILER_URL: sendmail://PROJECT-staging.kaliber5.de
+          ADMIN_USER: admin
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PW_STAGING }}
+          CORS_ALLOW_ORIGIN: PROJECT-staging.kaliber5.de
+
+      - name: Build project
+        run: composer build
+
+      - name: Deploy to staging server
+        uses: musps/action-deployer-php@v0.1.0
+        with:
+          args: deploy production
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY_STAGING }}
+          DEPLOY_HOST: "PROJECT-staging.kaliber5.de"
+          DEPLOY_USER: "USER"
+          DEPLOY_PATH: "/var/www/USER/htdocs/backend"
+
+      - name: Bust cache
+        run: |
+          curl $CACHE_RESET_ADMIN
+          curl $CACHE_RESET_API
+          curl $CACHE_RESET_ASSETS
+        env:
+          CACHE_RESET_ADMIN: https://admin.PROJECT-staging.kaliber5.de/bust_opcache.php
+          CACHE_RESET_API: https://api.PROJECT-staging.kaliber5.de/bust_opcache.php
+          CACHE_RESET_ASSETS: https://assets.PROJECT-staging.kaliber5.de/bust_opcache.php
+
+  production:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Setup Environment
+        run: |
+          echo "DATABASE_URL=$DATABASE_URL"  >> .env.prod
+          echo "CDN_PATH=$CDN_PATH" >> .env.prod
+          echo "MAILER_URL=$MAILER_URL" >> .env.prod
+          echo "ADMIN_USER=$ADMIN_USER" >> .env.prod
+          echo "ADMIN_PASSWORD=$ADMIN_PASSWORD" >> .env.prod
+          echo "CORS_ALLOW_ORIGIN=$CORS_ALLOW_ORIGIN" >> .env.prod
+        env:
+          DATABASE_URL: mysql://DB_USER:${{ secrets.DATABASE_PW_PRODUCTION }}@localhost/DB_NAME?serverVersion=mariadb-10.1.44
+          CDN_PATH: https://assets.PROJECT.de/uploads/media
+          MAILER_URL: sendmail://PROJECT.de
+          ADMIN_USER: admin
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PW_PRODUCTION }}
+          CORS_ALLOW_ORIGIN: PROJECT.de
+
+      - name: Build project
+        run: composer build
+
+      - name: Deploy to production server
+        uses: musps/action-deployer-php@v0.1.0
+        with:
+          args: deploy production
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY_PRODUCTION }}
+          DEPLOY_HOST: "PROJECT.de"
+          DEPLOY_USER: "USER"
+          DEPLOY_PATH: "/var/www/USER/htdocs/backend"
+
+      - name: Bust cache
+        run: |
+          curl $CACHE_RESET_ADMIN
+          curl $CACHE_RESET_API
+          curl $CACHE_RESET_ASSETS
+        env:
+          CACHE_RESET_ADMIN: https://admin.PROJECT.de/bust_opcache.php
+          CACHE_RESET_API: https://api.PROJECT.de/bust_opcache.php
+          CACHE_RESET_ASSETS: https://assets.PROJECT.de/bust_opcache.php

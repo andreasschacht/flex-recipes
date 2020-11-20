@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    tags:
+      - '*'
+  pull_request:
+
+jobs:
+  test:
+    name: Running tests
+    runs-on: ubuntu-latest
+    services:
+      mail:
+        image: schickling/mailcatcher
+        ports:
+          - "1080:1080"
+          - "1025:1025"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: execute tests
+        run: composer test
+        env:
+          APP_ENV: test
+          MAILER_URL: smtp://localhost:1025
+          CDN_PATH: http://localhost:8080/uploads/media
+          BEHAT_PARAMS: '{"extensions" : {"Alex\\MailCatcher\\Behat\\MailCatcherExtension\\Extension" : {"url" : "http://localhost:1080"}}}'
+
+

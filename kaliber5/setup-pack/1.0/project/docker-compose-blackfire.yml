@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    db:
+        image: mysql:5.6
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    php-bf:
+        build: docker/php7-fpm-blackfire
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+            - ${HOME}/.composer:/root/.composer
+        depends_on:
+            - db
+        env_file:
+            - .env
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: 0
+
+    nginx-bf:
+        image: nginx:alpine
+        working_dir: /var/www/symfony
+        volumes:
+            - ./docker/nginx/dev-bf.conf:/etc/nginx/conf.d/default.conf
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+            - ${SYMFONY_APP_PATH}/var/logs/nginx/:/var/log/nginx
+        depends_on:
+            - php-bf
+
+    blackfire:
+        image: blackfire/blackfire
+        environment:
+            # Exposes the host BLACKFIRE_SERVER_ID and TOKEN environment variables.
+            - BLACKFIRE_SERVER_ID
+            - BLACKFIRE_SERVER_TOKEN
+            - BLACKFIRE_CLIENT_ID
+            - BLACKFIRE_CLIENT_TOKEN
