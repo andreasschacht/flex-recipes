@@ -1,0 +1,14 @@
+{
+  "aliases": ["k5dev"],
+  "bundles": {
+    "Fidry\\AliceDataFixtures\\Bridge\\Symfony\\FidryAliceDataFixturesBundle": ["dev", "test"]
+  },
+  "copy-from-recipe": {
+    "config/": "%CONFIG_DIR%",
+    "project/": "%SRC_DIR%/../../"
+  },
+  "env": {
+    "ADMIN_USER": "admin",
+    "ADMIN_PASSWORD": "admin"
+  }
+}
