@@ -1,0 +1,12 @@
+{
+  "aliases": ["k5api"],
+  "copy-from-recipe": {
+    "src/": "%SRC_DIR%/",
+    "config/": "%CONFIG_DIR%",
+    "templates/": "%SRC_DIR%/../templates",
+  },
+  "env": {
+    "MAIL_FROM": "info@PROJECT.de",
+    "FRONTEND_LOAD_URL": "PROJECT.de/configurator/load"
+  }
+}

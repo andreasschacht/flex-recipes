@@ -42,7 +42,7 @@ jobs:
           MAILER_URL: sendmail://PROJECT-staging.kaliber5.de
           ADMIN_USER: admin
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PW_STAGING }}
-          CORS_ALLOW_ORIGIN: PROJECT-staging.kaliber5.de
+          CORS_ALLOW_ORIGIN: '^https?://([a-z0-9-]+\.)*(kaliber5|PROJECT).(de|com)'
 
       - name: Build project
         run: composer build
@@ -101,7 +101,7 @@ jobs:
           MAILER_URL: sendmail://PROJECT.de
           ADMIN_USER: admin
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PW_PRODUCTION }}
-          CORS_ALLOW_ORIGIN: PROJECT.de
+          CORS_ALLOW_ORIGIN: '^https?://([a-z0-9-]+\.)*(kaliber5|PROJECT).(de|com)'
 
       - name: Build project
         run: composer build

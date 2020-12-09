@@ -1,0 +1,53 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+
+
+services:
+    # Default configuration for services in *this* file
+    _defaults:
+        # Automatically injects dependencies in your services
+        autowire: true
+
+        # Automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+
+        # Allows optimizing the container by removing unused services; this also means
+        # fetching services directly from the container via $container->get() won't work
+        public: false
+        bind:
+            ApiPlatform\Core\DataPersister\DataPersisterInterface $ormDataPersister: '@api_platform.doctrine.orm.data_persister'
+            string $frontendLoadUrl: '%env(FRONTEND_LOAD_URL)%'
+            string $configurationMailFrom: '%env(MAIL_FROM)%'
+            string $configurationMailTemplate: 'mail/configuration_share.html.twig'
+            string $configurationMailSubject: 'mail.configuration_share.subject'
+
+    App\Serializer\ItemNormalizerDecorator:
+        decorates: api_platform.jsonapi.normalizer.item
+        arguments:
+            - '@App\Serializer\ItemNormalizerDecorator.inner'
+        tags:
+            - { name: serializer.normalizer, priority: -922 }
+
+    App\Serializer\NameConverter\ReverseReservedAttributeNameConverter:
+        decorates: api_platform.jsonapi.name_converter.reserved_attribute_name
+        arguments:
+            - '@App\Serializer\NameConverter\ReverseReservedAttributeNameConverter.inner'
+
+
+
+    App\Serializer\ItemNormalizer:
+        arguments:
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+            - '@api_platform.jsonapi.name_converter.reserved_attribute_name'
+            - '@api_platform.metadata.resource.metadata_factory'
+            - []
+            - !tagged api_platform.data_transformer
+        autowire: false
+        autoconfigure: false
+        public: false
+
+    api_platform.jsonapi.normalizer.item: '@App\Serializer\ItemNormalizer'

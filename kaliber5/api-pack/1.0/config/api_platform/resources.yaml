@@ -1,0 +1,32 @@
+resources:
+    App\Entity\Configuration:
+        shortName: 'saved-configuration'
+        collectionOperations:
+            get: ~
+            post: ~
+        itemOperations:
+            get: ~
+        properties:
+          id:
+            identifier: false
+          hash:
+            identifier: true
+        attributes:
+            normalization_context:
+                groups: ['read']
+                enable_max_depth: true
+
+    App\Entity\ConfigurationEmail:
+        shortName: 'configuration-email'
+        collectionOperations:
+            get: ~
+            post: ~
+        itemOperations:
+            get: ~
+        properties:
+            id:
+                identifier: true
+        attributes:
+            normalization_context:
+                groups: ['read']
+                enable_max_depth: true

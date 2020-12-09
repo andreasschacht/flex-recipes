@@ -1,0 +1,15 @@
+{%~ for group in summary.groups %}
+    {%~ if group.title is defined %}
+        {{~ group.title }}
+    {%~ endif %}
+    {%~ for item in group.items %}
+        {{~ item.label }}: {{ item.title -}}
+        {%~ if item.price is defined %}
+            {{~ (item.price/100)|number_format_currency('EUR', locale='de')|replace({',00': ',-'}) -}}
+        {%~ endif ~%}
+    {%~ endfor %}
+
+{% endfor %}
+{{ (summary.totalPrice/100)|number_format_currency('EUR', locale='de')|replace({',00': ',-'}) }}
+
+
