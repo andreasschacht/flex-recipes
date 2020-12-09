@@ -1,0 +1,7 @@
+App\Entity\ConfigurationEmail:
+    attributes:
+        email:
+          groups: ['read']
+        configuration:
+          serialized_name: 'saved-configuration'
+          groups: ['read']

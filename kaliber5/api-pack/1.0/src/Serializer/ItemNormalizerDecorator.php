@@ -49,7 +49,7 @@ class ItemNormalizerDecorator implements NormalizerInterface, DenormalizerInterf
      *
      * @throws ExceptionInterface
      */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize($data, string $type, string $format = null, array $context = [])
     {
         return $this->itemNormalizer->denormalize($data, $type, $format, $context);
     }
@@ -61,7 +61,7 @@ class ItemNormalizerDecorator implements NormalizerInterface, DenormalizerInterf
      *
      * @return bool
      */
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization($data, string $type, string $format = null)
     {
         return $this->itemNormalizer->supportsDenormalization($data, $type, $format);
     }
@@ -80,7 +80,7 @@ class ItemNormalizerDecorator implements NormalizerInterface, DenormalizerInterf
      *
      * @throws ExceptionInterface
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = [])
     {
         $context['fetch_data'] = false;
         $isRoot = $context['is_root'] ?? true;
@@ -106,7 +106,7 @@ class ItemNormalizerDecorator implements NormalizerInterface, DenormalizerInterf
      *
      * @return bool
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, string $format = null)
     {
         return $this->itemNormalizer->supportsNormalization($data, $format);
     }

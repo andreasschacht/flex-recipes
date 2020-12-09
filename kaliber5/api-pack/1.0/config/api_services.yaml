@@ -21,12 +21,16 @@ services:
             string $configurationMailTemplate: 'mail/configuration_share.html.twig'
             string $configurationMailSubject: 'mail.configuration_share.subject'
 
+####
+#    CAUTION: If the serializer is not not used, please ensure
+#    the priority of the origin (-890 currently) is lower than this service
+####
     App\Serializer\ItemNormalizerDecorator:
         decorates: api_platform.jsonapi.normalizer.item
         arguments:
             - '@App\Serializer\ItemNormalizerDecorator.inner'
         tags:
-            - { name: serializer.normalizer, priority: -922 }
+            - { name: serializer.normalizer, priority: -889 }
 
     App\Serializer\NameConverter\ReverseReservedAttributeNameConverter:
         decorates: api_platform.jsonapi.name_converter.reserved_attribute_name

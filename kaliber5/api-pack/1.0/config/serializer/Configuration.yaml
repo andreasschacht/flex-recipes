@@ -1,0 +1,9 @@
+App\Entity\Configuration:
+    attributes:
+        state:
+          groups: ['read']
+        bom:
+          groups: ['read']
+        summary:
+          groups: ['read']
+        
