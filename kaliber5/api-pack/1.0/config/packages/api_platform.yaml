@@ -19,6 +19,7 @@ api_platform:
   collection:
     pagination:
       enabled: false
+
   patch_formats:
     json: [ 'application/merge-patch+json' ]
   swagger:

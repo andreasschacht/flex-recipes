@@ -29,3 +29,4 @@ default:
                 - App\Tests\Behat\DbContext
                 - App\Tests\Behat\ApiContext
                 - behatch:context:rest
+                - Behat\MinkExtension\Context\MinkContext

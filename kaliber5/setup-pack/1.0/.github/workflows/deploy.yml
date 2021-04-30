@@ -1,17 +1,12 @@
 name: Deploy
 
-on:
-  push:
-    branches:
-      - develop
-    tags:
-      - 'v*'
+on: deployment
 
 jobs:
   staging:
     name: Deploy to staging
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    if: github.event.deployment.environment == 'staging'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -39,10 +34,15 @@ jobs:
         env:
           DATABASE_URL: mysql://DB_USER:${{ secrets.DATABASE_PW_STAGING }}@localhost/DB_NAME?serverVersion=mariadb-10.1.44
           CDN_PATH: https://assets.PROJECT-staging.kaliber5.de/uploads/media
-          MAILER_URL: sendmail://PROJECT-staging.kaliber5.de
+          MAILER_URL: sendmail://localhost
           ADMIN_USER: admin
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PW_STAGING }}
           CORS_ALLOW_ORIGIN: '^https?://([a-z0-9-]+\.)*(kaliber5|PROJECT).(de|com)'
+
+      - name: set php version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
 
       - name: Build project
         run: composer build
@@ -98,10 +98,15 @@ jobs:
         env:
           DATABASE_URL: mysql://DB_USER:${{ secrets.DATABASE_PW_PRODUCTION }}@localhost/DB_NAME?serverVersion=mariadb-10.1.44
           CDN_PATH: https://assets.PROJECT.de/uploads/media
-          MAILER_URL: sendmail://PROJECT.de
+          MAILER_URL: sendmail://localhost
           ADMIN_USER: admin
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PW_PRODUCTION }}
           CORS_ALLOW_ORIGIN: '^https?://([a-z0-9-]+\.)*(kaliber5|PROJECT).(de|com)'
+
+      - name: set php version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
 
       - name: Build project
         run: composer build

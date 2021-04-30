@@ -26,7 +26,6 @@ RUN docker-php-ext-install -j$(nproc) pdo_mysql intl gd bcmath opcache exif zip
 # install node
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && curl -L https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -o php-cs-fixer && chmod a+x php-cs-fixer && mv php-cs-fixer /usr/local/bin/php-cs-fixer \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && apt-get install -y nodejs \
     && apt-get update && apt-get install -y yarn
