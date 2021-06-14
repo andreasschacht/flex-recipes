@@ -56,10 +56,11 @@
     }
   }
   ```
-* Install the kaliber5's dev-pack recipe
+* Install the kaliber5's api-pack recipe
   ```bash
-  composer req kaliber5/api-pack
+  composer req kaliber5/api-pack --no-scripts
   ```
+  After install replace the files `config/services.yaml` and `config/packages/api_platform.yaml` with the their underscored versions. 
 ### Documentation
 
 Full documentation is available here: [Documentation](https://server-for-symfony-flex.readthedocs.io)
