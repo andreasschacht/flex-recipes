@@ -178,7 +178,7 @@ jobs:
   production:
     name: Deploy to production
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event.deployment.environment == 'production'
     steps:
       - uses: avakar/set-deployment-status@v1
         with:
