@@ -4,7 +4,7 @@ on: deployment
 
 jobs:
   develop:
-    name: Deploy to staging
+    name: Deploy to develop
     runs-on: ubuntu-latest
     if: github.event.deployment.environment == 'develop'
     steps:
